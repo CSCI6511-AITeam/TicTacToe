@@ -154,6 +154,10 @@ class board:
                 else:
                     x += 1
 
+    # Get chess in the position x,y
+    def get_chess(self, x, y):
+        return self._boardmap[y][x]
+
 def test():
     b = board(5, 16)
     b.move(1, 1, 2)
@@ -179,6 +183,8 @@ def test():
     b.clear_board()
     b.read_board_string(board_string)
     # print(b.get_board())
+    chess = b.get_chess(2, 2)
+    print(chess)
     print('winner: ', b.get_result())
 
 test()
