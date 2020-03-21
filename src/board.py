@@ -12,6 +12,7 @@ class board:
         self._m = m
         self._n = n
         self._boardmap = np.zeros((n, n), dtype=int)
+        self._pace = 0
         pass
 
     # put chess at x,y by player 1 or 2
@@ -28,6 +29,7 @@ class board:
                 self._boardmap[y][x] = 1
             elif player == 2:
                 self._boardmap[y][x] = 2
+            self._pace += 1
         else:
             if end_round:
                 print('Round has ended')
@@ -91,6 +93,9 @@ class board:
         if chess_in_row == self._m - 1:
             self._result = player
             return
+        # Draw
+        if self._pace == self._n * self._n:
+            self._result = 3
 
     def get_board(self):
         return self._boardmap
@@ -98,6 +103,7 @@ class board:
     def clear_board(self):
         self._boardmap = np.zeros((self._n, self._n), dtype=int)
         self._result = 0
+        self._pace = 0
 
     def get_result(self):
         return self._result
@@ -160,7 +166,7 @@ class board:
         return self._boardmap[y][x]
 
 def test():
-    b = board(5, 16)
+    b = board(3, 3)
     b.move(1, 1, 2)
     b.move(2, 1, 1)
     b.move(3, 1, 1)
@@ -177,6 +183,11 @@ def test():
     b.move(4, 4, 2)
     b.move(5, 5, 2)
 
+    b.move(0, 0, 1)
+    b.move(1, 0, 2)
+    b.move(0, 1, 2)
+    b.move(0, 2, 1)
+    b.move(1, 2, 1)
 
     print(b.get_board())
     board_string = b.get_board_string()
