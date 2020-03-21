@@ -16,6 +16,10 @@ class board:
 
     # put chess at x,y by player 1 or 2
     def move(self, x, y, player, end_round=True):
+        # validation check
+        if not self._n > x >= 0 or not self._n > y >= 0:
+            print('Invalid position')
+            return
         if self._result == 0:
             if self._boardmap[y][x] != 0:
                 print('Position has captured')
@@ -28,10 +32,7 @@ class board:
             if end_round:
                 print('Round has ended')
                 return
-        # validation check
-        if not self._n > x >= 0 or not self._n > y >= 0:
-            print('Invalid position')
-            return
+
         # win check
             # left to right
         chess_in_row = 0
