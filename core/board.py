@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class board:
+class Board:
     _m = 0
     _n = 0
     _boardmap = None         # 0 = None, 1 = player1, 2 = player2
@@ -166,7 +166,7 @@ class board:
         return self._boardmap[y][x]
 
 def test():
-    b = board(3, 3)
+    b = Board(3, 3)
     b.move(1, 1, 2)
     b.move(2, 1, 1)
     b.move(3, 1, 1)
