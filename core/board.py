@@ -2,17 +2,14 @@ import numpy as np
 
 
 class Board:
-    _m = 0
-    _n = 0
-    _boardmap = None         # 0 = None, 1 = player1, 2 = player2
-    _result = 0              # 0 = None, 1 = player1 win, 2 = player2 win, 3 = draw
 
     # nxn board with m chess in a row to win
     def __init__(self, m, n):
         self._m = m
         self._n = n
-        self._boardmap = np.zeros((n, n), dtype=int)
+        self._boardmap = np.zeros((n, n), dtype=int)    # 0 = None, 1 = player1, 2 = player2
         self._pace = 0
+        self._result = 0              # 0 = None, 1 = player1 win, 2 = player2 win, 3 = draw
         pass
 
     # put chess at x,y by player 1 or 2
@@ -166,7 +163,7 @@ class Board:
         return self._boardmap[y][x]
 
 def test():
-    b = Board(3, 3)
+    b = Board(5, 16)
     b.move(1, 1, 2)
     b.move(2, 1, 1)
     b.move(3, 1, 1)
