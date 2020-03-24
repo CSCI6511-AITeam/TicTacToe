@@ -1,5 +1,4 @@
 
-
 # Use Node(player, score, x, y) to init the node.
 class Node:
     def __init__(self):
@@ -84,23 +83,32 @@ class Node:
 #   ALL OPERATIONS BASE ON POINTER
 #
 #   Method:
+# -------------------------------------------------------------------------------------------------------------------
 #   Pointer Control:
 #   get_pointed_node()      Get the current pointed node
+#                               Return: Current pointer (node)
 #   go_head()               Go to head node
+#                               Return: Head node
 #   go_neighbor()           Go to neighbor node at the same depth and under the same root
+#                               Return: Neighbor node or None(if no neighbor)
 #   go_first_child()        Go to the first child node of the current pointed node
+#                               Return: First child node or None(if no child)
 #   go_root()               Go to the root node of the current pointed node
-#
+#                               Return: Root node
+# -------------------------------------------------------------------------------------------------------------------
 #   add_child(Node)         Add a child node to the current pointed node
 #   begin_search            Use this when evaluation of the score begin.
 #                               pointer will go to the first node that needed to be evaluated.
-#   next()                  Go to the next node that needed to be evaluated
+#                               Return: First node to evaluate
+#   next()                  Go to the next node that needed to be evaluated.
+#                               Return: Next node or None(Reach the end)
+#   get_new_chess()         Get all new chess when reach the current pointed node.
+#                               Return: [[player, [x, y]], ...]
 class MinimaxTree:
     def __init__(self, head_node):
         self._head = head_node
         self._head: Node
         self._pointer = head_node
-        self._pointer: Node
         self._head_player = self._pointer.get_player()
 
     # Go to the head node
@@ -222,7 +230,8 @@ class MinimaxTree:
                 root.set_score(score)
 
         # alpha <= N <= beta
-        if self.go_neighbor() is None or ((root_alpha is not None and root_beta is not None) and (root_alpha >= root_beta)):
+        if self.go_neighbor() is None or \
+                ((root_alpha is not None and root_beta is not None) and (root_alpha >= root_beta)):
             while True:
                 if self.go_root():
                     if self.go_neighbor_cal():
@@ -250,7 +259,19 @@ class MinimaxTree:
     def get_pointer_node(self):
         return self._pointer
 
-
+    # Get all new chess when reach current node
+    def get_new_chess(self):
+        current_point = self._pointer
+        new_chess = []
+        while True:
+            self._pointer: Node
+            pos = self._pointer.get_pos()
+            player = self._pointer.get_player()
+            new_chess.append([player, pos])
+            if self.go_root() is None:
+                break
+        self._pointer = current_point
+        return new_chess
 
 
 def test():
@@ -366,16 +387,18 @@ def test():
     print(tree.get_pointer_node().get_score())
     tree.next()
 
-    print(tree.go_first_child().get_score())
-    print(tree.go_neighbor().get_score())
+    tree.go_head()
+    tree.go_first_child()
+    tree.go_first_child()
+    tree.go_first_child()
+    tree.go_first_child()
+
+    print(tree.get_pointer_node().get_score())
+    print(tree.get_new_chess())
+    print(tree.get_pointer_node().get_score())
+
     # print(tree.get_pointer_node().get_pos())
     # print(tree.get_pointer_node().get_alpha_beta())
 
 
-
-
-
-
 test()
-
-
