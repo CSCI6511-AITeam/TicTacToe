@@ -1,7 +1,7 @@
 
 
+# Use Node(player, score, x, y) to init the node.
 class Node:
-
     def __init__(self):
         self._root = None
         self._player = 0
@@ -78,8 +78,24 @@ class Node:
         return self._child_amount
 
 
+# Introduction
+#   Use MinimaxTree(head_node) to init the tree
+#   Pointer will point to the head node
+#   ALL OPERATIONS BASE ON POINTER
+#
+#   Method:
+#   Pointer Control:
+#   get_pointed_node()      Get the current pointed node
+#   go_head()               Go to head node
+#   go_neighbor()           Go to neighbor node at the same depth and under the same root
+#   go_first_child()        Go to the first child node of the current pointed node
+#   go_root()               Go to the root node of the current pointed node
+#
+#   add_child(Node)         Add a child node to the current pointed node
+#   begin_search            Use this when evaluation of the score begin.
+#                               pointer will go to the first node that needed to be evaluated.
+#   next()                  Go to the next node that needed to be evaluated
 class MinimaxTree:
-
     def __init__(self, head_node):
         self._head = head_node
         self._head: Node
@@ -337,16 +353,23 @@ def test():
     tree.go_neighbor()
 
     tree.begin_search()
+    print(tree.get_pointer_node().get_score())
     tree.next()
+    print(tree.get_pointer_node().get_score())
     tree.next()
+    print(tree.get_pointer_node().get_score())
     tree.next()
+    print(tree.get_pointer_node().get_score())
     tree.next()
+    print(tree.get_pointer_node().get_score())
     tree.next()
+    print(tree.get_pointer_node().get_score())
     tree.next()
 
-    print(tree.get_pointer_node().get_score())
-    print(tree.get_pointer_node().get_pos())
-    print(tree.get_pointer_node().get_alpha_beta())
+    print(tree.go_first_child().get_score())
+    print(tree.go_neighbor().get_score())
+    # print(tree.get_pointer_node().get_pos())
+    # print(tree.get_pointer_node().get_alpha_beta())
 
 
 
