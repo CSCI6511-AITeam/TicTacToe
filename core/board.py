@@ -2,7 +2,6 @@ import numpy as np
 
 
 class Board:
-
     # nxn board with m chess in a row to win
     def __init__(self, m, n):
         self._m = m
