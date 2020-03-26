@@ -22,27 +22,37 @@ def create_game(team1, team2, boardsize, target):
         "boardSize": boardsize,
         "target": target
     }
-    response = requests.post(url, data=data, headers=headers)
-    print(response.text)
-    dict = ast.literal_eval(response.text)
-    gameId = dict['gameId']
-    return gameId
+    try:
+        response = requests.post(url, data=data, headers=headers)
+        print(response.text)
+        dict = ast.literal_eval(response.text)
+        gameId = int(dict['gameId'])
+        return gameId
+    except Exception as e:
+        print('Connection failed')
+        print(e)
+        return None
 
 
 # Pos=[x, y]. Return move ID
 def move(game_id, team_id, pos):
-    pos_str = '' + str(pos[0]) + ',' + str(pos[1])
+    pos_str = '' + str(pos[1]) + ',' + str(pos[0])
     data = {
         "type": "move",
         "gameId": game_id,
         "teamId": team_id,
         "move": pos_str
     }
-    response = requests.post(url, data=data, headers=headers)
-    print(response.text)
-    dict = ast.literal_eval(response.text)
-    moveId = dict['moveId']
-    return moveId
+    try:
+        response = requests.post(url, data=data, headers=headers)
+        print(response.text)
+        dict = ast.literal_eval(response.text)
+        moveId = int(dict['moveId'])
+        return moveId
+    except Exception as e:
+        print('Connection failed')
+        print(e)
+        return None
 
 
 # Count=How many moves from recent to show
@@ -53,12 +63,16 @@ def get_moves(game_id, count):
         "gameId": game_id,
         "count": count
     }
-    response = requests.get(url, params=params, headers=headers)
-    print(response.text)
-    dict = ast.literal_eval(response.text)
-    moves = dict['moves']
-    return moves
-
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        # print(response.text)
+        dict = ast.literal_eval(response.text)
+        moves = dict['moves']
+        return moves
+    except Exception as e:
+        print('Connection failed')
+        print(e)
+        return None
 
 # Return a board string
 def get_board_string(game_id):
@@ -66,26 +80,37 @@ def get_board_string(game_id):
         "type": "boardString",
         "gameId": game_id,
     }
-    response = requests.get(url, params=params, headers=headers)
-    print(response.text)
-    dict = ast.literal_eval(response.text)
-    board_str = dict['output']
-    return board_str
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        print(response.text)
+        dict = ast.literal_eval(response.text)
+        board_str = dict['output']
+        return board_str
+    except Exception as e:
+        print('Connection failed')
+        print(e)
+        return None
 
 
 # Return a dictionary of moves
+# Testing connection availability
 def get_board_map(game_id):
     params = {
         "type": "boardMap",
         "gameId": game_id,
     }
-    response = requests.get(url, params=params, headers=headers)
-    print(response.text)
-    dict = ast.literal_eval(response.text)
-    board_map = dict['output']
-    borad_map_dict = ast.literal_eval(board_map)
-    return borad_map_dict
-
+    try:
+        response = requests.get(url, params=params, headers=headers)
+        print(response.text)
+        dict = ast.literal_eval(response.text)
+        board_map = dict['output']
+        status = dict['code']
+        borad_map_dict = ast.literal_eval(board_map)
+        return borad_map_dict, status
+    except Exception as e:
+        print(e)
+        print('Connection failed')
+        return None, False
 
 def test():
     # print(create_game(1208, 1208, 16, 5))
@@ -95,4 +120,4 @@ def test():
     # print(get_board_map(94))
     pass
 
-test()
+# test()

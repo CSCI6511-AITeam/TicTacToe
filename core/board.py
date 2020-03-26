@@ -16,11 +16,11 @@ class Board:
         # validation check
         if not self._n > x >= 0 or not self._n > y >= 0:
             print('Invalid position')
-            return
+            return False
         if self._result == 0:
             if self._boardmap[y][x] != 0:
                 print('Position has captured')
-                return
+                return False
             if player == 1:
                 self._boardmap[y][x] = 1
             elif player == 2:
@@ -29,7 +29,7 @@ class Board:
         else:
             if end_round:
                 print('Round has ended')
-                return
+                return True
 
         # win check
             # left to right
@@ -46,7 +46,7 @@ class Board:
                     break
         if chess_in_row == self._m - 1:
             self._result = player
-            return
+            return True
             # up to down
         chess_in_row = 0
         for d in directions:
@@ -60,7 +60,7 @@ class Board:
                     break
         if chess_in_row == self._m - 1:
             self._result = player
-            return
+            return True
             # left up to right down
         chess_in_row = 0
         for d in directions:
@@ -74,7 +74,7 @@ class Board:
                     break
         if chess_in_row == self._m - 1:
             self._result = player
-            return
+            return True
             # left down to right up
         chess_in_row = 0
         for d in directions:
@@ -88,10 +88,12 @@ class Board:
                     break
         if chess_in_row == self._m - 1:
             self._result = player
-            return
+            return True
         # Draw
         if self._pace == self._n * self._n:
             self._result = 3
+            return True
+        return True
 
     def get_board(self):
         return self._boardmap
@@ -111,18 +113,18 @@ class Board:
             for x in range(0, self._n):
                 if X == 1:
                     if self._boardmap[y][x] == 0:
-                        string += '-'
+                        string += '- '
                     elif self._boardmap[y][x] == 1:
-                        string += 'X'
+                        string += 'X '
                     elif self._boardmap[y][x] == 2:
-                        string += 'O'
+                        string += 'O '
                 if X == 2:
                     if self._boardmap[y][x] == 0:
-                        string += '-'
+                        string += '- '
                     elif self._boardmap[y][x] == 1:
-                        string += 'O'
+                        string += 'O '
                     elif self._boardmap[y][x] == 2:
-                        string += 'X'
+                        string += 'X '
             string += '\n'
         return string
 
@@ -178,6 +180,8 @@ def test():
     b.move(3, 3, 2)
     b.move(4, 4, 2)
     b.move(5, 5, 2)
+    b.move(6, 6, 2)
+
 
     b.move(0, 0, 1)
     b.move(1, 0, 2)
@@ -188,11 +192,11 @@ def test():
     print(b.get_board())
     board_string = b.get_board_string()
     print(board_string)
-    b.clear_board()
-    b.read_board_string(board_string)
-    # print(b.get_board())
-    chess = b.get_chess(2, 2)
-    print(chess)
+    # b.clear_board()
+    # b.read_board_string(board_string)
+    # # print(b.get_board())
+    # chess = b.get_chess(2, 2)
+    # print(chess)
     print('winner: ', b.get_result())
 
-test()
+# test()
