@@ -1,4 +1,5 @@
 
+
 # Use Node(player, score, x, y) to init the node.
 class Node:
     def __init__(self):
@@ -144,7 +145,7 @@ class MinimaxTree:
         root = self._pointer.get_root()
         if root is None:
             # Has reached the last possible node and end in the head node
-            print("Reach the end")
+            # print("Reach the end")
             return None
         root: Node
         root_player = root.get_player()
@@ -207,6 +208,8 @@ class MinimaxTree:
     # Calculate the pointer node score after using this
     def next(self):
         root = self._pointer.get_root()
+        if root is None:
+            return None
         root: Node
         score = self._pointer.get_score()
         root_alpha, root_beta = root.get_alpha_beta()
@@ -248,8 +251,7 @@ class MinimaxTree:
                 else:
                     # Ended at the head node
                     return None
-
-        if self.go_neighbor():
+        else:
             return self._pointer
 
     # Add child to the current pointer
@@ -273,91 +275,115 @@ class MinimaxTree:
         self._pointer = current_point
         return new_chess
 
+    def get_next_move(self):
+        current_point = self._pointer
+        self.go_head()
+        self.go_first_child()
+        # print(self.get_pointer_node().get_score())
+        best_score = self.get_pointer_node().get_score()
+        best_pos = self.get_pointer_node().get_pos()
+        while self.go_neighbor() is not None:
+            # print(self.get_pointer_node().get_score())
+            if self.get_pointer_node().get_score() > best_score:
+                best_score = self.get_pointer_node().get_score()
+                best_pos = self.get_pointer_node().get_pos()
+        self._pointer = current_point
+        return best_pos
+
 
 def test():
-    head_node = Node(1, None, 0, 0)
+    head_node = Node(2, None, -1, -1)
     head_node.set_no(0)
     tree = MinimaxTree(head_node)
-    node = Node(2, None, 0, 1)
+    node = Node(1, None, 0, 1)
     tree.add_child(node)
-    node = Node(2, None, 1, 1)
+    node = Node(1, None, 1, 1)
     tree.add_child(node)
-    tree.go_first_child()
-    node = Node(1, None, 0, 2)
-    tree.add_child(node)
-    node = Node(1, None, 1, 2)
-    tree.add_child(node)
-    tree.go_neighbor()
 
-    node = Node(1, None, 2, 2)
+    tree.go_first_child()
+    node = Node(2, None, 0, 2)
     tree.add_child(node)
-    node = Node(1, None, 3, 2)
+    node = Node(2, None, 1, 2)
     tree.add_child(node)
+
+    tree.go_neighbor()
+    node = Node(2, None, 2, 2)
+    tree.add_child(node)
+    node = Node(2, None, 3, 2)
+    tree.add_child(node)
+
     tree.go_root()
     tree.go_first_child()
     tree.go_first_child()
 
-    node = Node(2, None, 0, 3)
+    node = Node(1, None, 0, 3)
     tree.add_child(node)
-    node = Node(2, None, 1, 3)
+    node = Node(1, None, 1, 3)
     tree.add_child(node)
+
     tree.go_neighbor()
-    node = Node(2, None, 2, 3)
+    node = Node(1, None, 2, 3)
     tree.add_child(node)
-    node = Node(2, None, 3, 3)
+    node = Node(1, None, 3, 3)
     tree.add_child(node)
+
     tree.go_head()
     tree.go_first_child()
     tree.go_neighbor()
     tree.go_first_child()
-    node = Node(2, None, 4, 3)
+    node = Node(1, None, 4, 3)
     tree.add_child(node)
-    node = Node(2, None, 5, 3)
+    node = Node(1, None, 5, 3)
     tree.add_child(node)
+
     tree.go_neighbor()
-    node = Node(2, None, 6, 3)
+    node = Node(1, None, 6, 3)
     tree.add_child(node)
+
     tree.go_head()
     tree.go_first_child()
     tree.go_first_child()
     tree.go_first_child()
-    node = Node(1, 3, 0, 4)
+    node = Node(2, 3, 0, 4)
     tree.add_child(node)
-    node = Node(1, 17, 1, 4)
+    node = Node(2, 17, 1, 4)
+    tree.add_child(node)
+
+    tree.go_neighbor()
+    node = Node(2, 2, 2, 4)
+    tree.add_child(node)
+    node = Node(2, 0, 3, 4)
+    tree.add_child(node)
+
+    tree.go_root()
+    tree.go_neighbor()
+    tree.go_first_child()
+    node = Node(2, 15, 4, 4)
     tree.add_child(node)
     tree.go_neighbor()
-    node = Node(1, 2, 2, 4)
+    node = Node(2, 0, 5, 4)
     tree.add_child(node)
-    node = Node(1, 0, 3, 4)
+    node = Node(2, 0, 6, 4)
+    tree.add_child(node)
+
+    tree.go_head()
+    tree.go_first_child()
+    tree.go_neighbor()
+    tree.go_first_child()
+    tree.go_first_child()
+    node = Node(2, 2, 7, 4)
+    tree.add_child(node)
+    node = Node(2, 0, 8, 4)
+    tree.add_child(node)
+    tree.go_neighbor()
+    node = Node(2, 4, 9, 4)
     tree.add_child(node)
     tree.go_root()
     tree.go_neighbor()
     tree.go_first_child()
-    node = Node(1, 15, 4, 4)
+    node = Node(2, 0, 10, 4)
     tree.add_child(node)
-    tree.go_neighbor()
-    node = Node(1, 0, 5, 4)
-    tree.add_child(node)
-    node = Node(1, 0, 6, 4)
-    tree.add_child(node)
-    tree.go_head()
-    tree.go_first_child()
-    tree.go_neighbor()
-    tree.go_first_child()
-    tree.go_first_child()
-    node = Node(1, 2, 7, 4)
-    tree.add_child(node)
-    node = Node(1, 0, 8, 4)
-    tree.add_child(node)
-    tree.go_neighbor()
-    node = Node(1, 3, 9, 4)
-    tree.add_child(node)
-    tree.go_root()
-    tree.go_neighbor()
-    tree.go_first_child()
-    node = Node(1, 0, 10, 4)
-    tree.add_child(node)
-    node = Node(1, 0, 11, 4)
+    node = Node(2, 0, 11, 4)
     tree.add_child(node)
 
     tree.go_head()
@@ -374,24 +400,13 @@ def test():
     tree.go_neighbor()
 
     tree.begin_search()
-    print(tree.get_pointer_node().get_score())
-    tree.next()
-    print(tree.get_pointer_node().get_score())
-    tree.next()
-    print(tree.get_pointer_node().get_score())
-    tree.next()
-    print(tree.get_pointer_node().get_score())
-    tree.next()
-    print(tree.get_pointer_node().get_score())
-    tree.next()
-    print(tree.get_pointer_node().get_score())
-    tree.next()
+    while tree.next() is not None:
+        pass
 
+    print("\n")
     tree.go_head()
     tree.go_first_child()
-    tree.go_first_child()
-    tree.go_first_child()
-    tree.go_first_child()
+    print(tree.get_next_move())
 
     print(tree.get_pointer_node().get_score())
     print(tree.get_new_chess())
@@ -401,4 +416,4 @@ def test():
     # print(tree.get_pointer_node().get_alpha_beta())
 
 
-test()
+#test()
