@@ -248,8 +248,7 @@ class MinimaxTree:
                 else:
                     # Ended at the head node
                     return None
-
-        if self.go_neighbor():
+        else:
             return self._pointer
 
     # Add child to the current pointer
@@ -375,17 +374,21 @@ def test():
 
     tree.begin_search()
     print(tree.get_pointer_node().get_score())
-    tree.next()
+    print(tree.next())
     print(tree.get_pointer_node().get_score())
-    tree.next()
+    print(tree.next())
+
     print(tree.get_pointer_node().get_score())
-    tree.next()
+    print(tree.next())
+
     print(tree.get_pointer_node().get_score())
-    tree.next()
+    print(tree.next())
+
     print(tree.get_pointer_node().get_score())
-    tree.next()
+    print(tree.next())
+
     print(tree.get_pointer_node().get_score())
-    tree.next()
+    print(tree.next())
 
     tree.go_head()
     tree.go_first_child()
