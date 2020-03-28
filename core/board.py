@@ -9,7 +9,28 @@ class Board:
         self._boardmap = np.zeros((n, n), dtype=int)    # 0 = None, 1 = player1, 2 = player2
         self._pace = 0
         self._result = 0              # 0 = None, 1 = player1 win, 2 = player2 win, 3 = draw
+        self.active_node = []
         pass
+
+    def get_square(self):
+        min_x = None
+        min_y = None
+        max_x = None
+        max_y = None
+        for x, y in self.active_node:
+            if min_x is None or min_x > x:
+                min_x = x
+            if min_y is None or min_y > y:
+                min_y = y
+            if max_x is None or max_x < x:
+                max_x = x
+            if max_y is None or max_y < y:
+                max_y = y
+        min_x = max(0, min_x - 3)
+        min_y = max(0, min_y - 3)
+        max_x = min(self._n - 1, max_x + 3)
+        max_y = min(self._n - 1, max_y + 3)
+        return min_y * self._n + min_x, max_y * self._n + max_x
 
     # put chess at x,y by player 1 or 2
     def move(self, x, y, player, end_round=True):
@@ -28,6 +49,7 @@ class Board:
             elif player == 2:
                 self._boardmap[y][x] = 2
             self._pace += 1
+            self.active_node.append([x, y])
         else:
             if end_round:
                 # print('Round has ended')
@@ -38,9 +60,7 @@ class Board:
 
     def get_score(self, player, my_turn):
         score = np.zeros((self._m + 1, 2), dtype=int)
-        for i in range(0, self._n * self._n):
-            x = i % self._n
-            y = i // self._n
+        for x, y in self.active_node:
             if self._boardmap[y][x] != 0:
                 team = self._boardmap[y][x]
                 for j in range(0, 4):
@@ -206,6 +226,7 @@ class Board:
             # print('Position has not captured')
             return True
         self._boardmap[y][x] = 0
+        self.active_node.remove([x, y])
         self._pace -= 1
         self._result = 0
         return True

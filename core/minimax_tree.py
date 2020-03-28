@@ -1,3 +1,4 @@
+from core.board import Board
 
 
 # Use Node(player, score, x, y) to init the node.
@@ -139,6 +140,14 @@ class MinimaxTree:
             self._pointer = previous_node
             return None
 
+    def go_child_num(self, num):
+        if num < self._pointer.get_child_amount():
+            self._pointer = self._pointer.get_childs_list()[num]
+            return self._pointer
+        else:
+            # print("No more neighbor")
+            return None
+
     # Go to the next neighbor with a b score calculation
     def go_neighbor_cal(self):
         current_no = self._pointer.get_no()
@@ -206,12 +215,17 @@ class MinimaxTree:
     # Use begin_search() before using it.
     # Return None if ended. Pointer will go to the head node
     # Calculate the pointer node score after using this
-    def next(self):
+    def next(self, b, team, if_my_team):
         root = self._pointer.get_root()
         if root is None:
             return None
         root: Node
-        score = self._pointer.get_score()
+        for [player, [x, y]] in self.get_new_chess():
+            b: Board
+            b.move(x, y, player)
+        score = b.get_score(team, if_my_team)
+        for [player, [x, y]] in self.get_new_chess():
+            b.remove(x, y)
         root_alpha, root_beta = root.get_alpha_beta()
         root_player = root.get_player()
 
@@ -269,9 +283,9 @@ class MinimaxTree:
             self._pointer: Node
             pos = self._pointer.get_pos()
             player = self._pointer.get_player()
-            new_chess.append([player, pos])
             if self.go_root() is None:
                 break
+            new_chess.insert(0, [player, pos])
         self._pointer = current_point
         return new_chess
 
