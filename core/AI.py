@@ -7,7 +7,7 @@ import time;
 class Ai:
     def __init__(self):
         self.team = None
-        self.loop_num = 3
+        self.loop_num = 1
         pass
 
     def move(self, b, player):
@@ -83,11 +83,12 @@ def ai_test():
         # print(b.get_board())
         x, y = ai.move(b, 1)
         b.move(x, y, 1)
-        print(b.get_board())
         if b.get_result() != 0:
             print(b.get_board())
             print(b.get_result())
             break
+        print(b.get_board())
+        print (x, y)
 
 '''    
     b.move(2, 0, 1)

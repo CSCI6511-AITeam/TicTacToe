@@ -224,6 +224,8 @@ class MinimaxTree:
             b: Board
             b.move(x, y, player)
         score = b.get_score(team, if_my_team)
+        self.get_pointer_node().set_score(score)
+        # print(score, x, y)
         for [player, [x, y]] in self.get_new_chess():
             b.remove(x, y)
         root_alpha, root_beta = root.get_alpha_beta()
