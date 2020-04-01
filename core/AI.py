@@ -7,7 +7,7 @@ import time;
 class Ai:
     def __init__(self):
         self.team = None
-        self.loop_num = 1
+        self.loop_num = 2
         pass
 
     def move(self, b, player):
@@ -21,10 +21,10 @@ class Ai:
         tree = self.make_tree(b, player)
         tree.begin_search()
         # print(tree.get_new_chess())
-        while tree.next(b, self.team, self.loop_num) is not None:
+        while tree.next(b, player, self.loop_num % 2) is not None:
             pass
         end = time.time()
-        print(end - start)
+        # print(end - start)
         return tree.get_next_move()
 
     def make_tree(self, b, player):
@@ -69,26 +69,27 @@ class Ai:
 def ai_test():
     b = Board(5, 15)
     ai = Ai()
-    # b.move(1, 1, 1)
+    # b.move(7, 7, 2)
     # print(b.get_board())
     while True:
         x, y = str.split(input('Enter move position (left up is 0 0): \"x y\"\n'), ' ')
         x = int(x)
         y = int(y)
-        b.move(x, y, 2)
-        if b.get_result() != 0:
-            print(b.get_board())
-            print(b.get_result())
-            break
-        # print(b.get_board())
-        x, y = ai.move(b, 1)
         b.move(x, y, 1)
         if b.get_result() != 0:
             print(b.get_board())
             print(b.get_result())
             break
+        # print(b.get_board())
+        x, y = ai.move(b, 2)
+        b.move(x, y, 2)
+        if b.get_result() != 0:
+            print(b.get_board())
+            print(b.get_result())
+            break
         print(b.get_board())
-        print (x, y)
+        print(x, y)
+
 
 '''    
     b.move(2, 0, 1)
@@ -119,4 +120,4 @@ def ai_test():
 '''
 
 
-ai_test()
+# ai_test()

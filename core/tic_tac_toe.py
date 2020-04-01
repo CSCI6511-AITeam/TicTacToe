@@ -1,8 +1,10 @@
 from core.board import Board
+from core.AI import Ai
 import utils.connection as con
 import time
 
 my_team = 1208
+
 
 class Game:
     def __init__(self, online=True):
@@ -19,6 +21,7 @@ class Game:
         self.move_id = None
         self.game_end = False
         self.online = online
+        self.ai = Ai()
 
     # Create a new game
     def create_game(self, adversary_id, board_size, target):
@@ -37,7 +40,6 @@ class Game:
             print('Exception: ', e)
             print('Failed to join the game')
             return False
-
 
     # Join a game
     def join_game(self, game_id, adversary_id, board_size, target):
@@ -58,7 +60,6 @@ class Game:
         else:
             print('Failed to join the game')
             return False
-
 
     def start(self):
         while True:
@@ -130,12 +131,11 @@ class Game:
         while self.update():
             pass
 
-
     def update(self):
         if self.current_round_team == self.our_team:
             self.our_turn()
         elif self.current_round_team == self.adversary_team:
-            self.adversary_turn(ai=True)
+            self.adversary_turn(ai=False)
         if self.game_end:
             print('Round end')
             return False
@@ -150,11 +150,14 @@ class Game:
         while True:
             # Use AI to replace this section.
             # -----------------------------------------------------------------------------------
-            x, y = str.split(input('Enter move position (left up is 1 1): \"x y\"\n'), ' ')
-            x = int(x) - 1
-            y = int(y) - 1
+            if self.board.get_pace() == 0:
+                x = self.n // 2
+                y = self.n // 2
+            else:
+                x, y = self.ai.move(self.board, self.our_team)
             # -----------------------------------------------------------------------------------
             pos = [x, y]
+            print(x, y)
             if self.online:
                 self.move_id = con.move(self.game_id, self.team1, pos)
             else:

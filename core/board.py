@@ -186,19 +186,21 @@ class Board:
         opponent = player
         player = player - 1
         if opponent > 1:
-            opponent = 1
+            opponent = 0
         if my_turn == 1:
             if score[0][opponent] > self._m - 2 and score[0][player] <= score[0][opponent]:
                 return -100
             if score[0][opponent] == self._m - 2 and score[0][player] <= score[0][opponent] and score[self._m - 2][opponent] != 0:
                 if self._m != 3:
                     return -100
+        '''
         else:
             if score[0][player] > self._m - 2 and score[0][opponent] <= score[0][player]:
                 return 100
             if score[0][player] == self._m - 2 and score[0][opponent] <= score[0][player] and score[self._m - 2][player] != 0:
                 if self._m != 3:
                     return 100
+        '''
         if score[0][opponent] == self._m:
             return -100
         if score[0][player] == self._m:
@@ -211,7 +213,7 @@ class Board:
             elif score[0][player] < score[0][opponent]:
                 s = s / 4 + 0.8 * score[i][player] - score[i][opponent]
             else:
-                if my_turn:
+                if my_turn == 1:
                     s = s / 4 + 0.8 * score[i][player] - score[i][opponent]
                 else:
                     s = s / 4 + score[i][player] - 0.8 * score[i][opponent]
