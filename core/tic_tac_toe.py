@@ -135,7 +135,7 @@ class Game:
         if self.current_round_team == self.our_team:
             self.our_turn()
         elif self.current_round_team == self.adversary_team:
-            self.adversary_turn(ai=False)
+            self.adversary_turn(ai=self.online)
         if self.game_end:
             print('Round end')
             return False
@@ -154,7 +154,7 @@ class Game:
                 x = self.n // 2
                 y = self.n // 2
             else:
-                x, y = self.ai.move(self.board, self.our_team)
+                x, y = self.ai.move(self.board, self.current_round_team)
             # -----------------------------------------------------------------------------------
             pos = [x, y]
             print(x, y)
@@ -187,7 +187,7 @@ class Game:
         self.next_team()
 
     def adversary_turn(self, ai=False):
-        if ai is False:
+        if ai is True:
             print('Waiting for response...')
             while True:
                 move = con.get_moves(self.game_id, 1)
@@ -210,11 +210,14 @@ class Game:
             while True:
                 # Use AI to replace this section.
                 # -----------------------------------------------------------------------------------
-                x, y = str.split(input('Enter move position (left up is 1 1): \"x y\"\n'), ' ')
-                x = int(x) - 1
-                y = int(y) - 1
+                if self.board.get_pace() == 0:
+                    x = self.n // 2
+                    y = self.n // 2
+                else:
+                    x, y = self.ai.move(self.board, self.current_round_team)
                 # -----------------------------------------------------------------------------------
                 pos = [x, y]
+                print(x, y)
                 if self.online:
                     self.move_id = con.move(self.game_id, self.team2, pos)
                 else:

@@ -1,7 +1,7 @@
 from core.board import Board
 from core.minimax_tree import MinimaxTree, Node
 
-import time;
+import time
 
 
 class Ai:
@@ -46,7 +46,7 @@ class Ai:
         child_num = 0
         min_i, max_i = b.get_square()
         # print(min_i, max_i)
-        for i in range(min_i, max_i):
+        for i in range(min_i, max_i + 1):
             if b.move(i % n, i // n, opponent):
                 if loop_time >= self.loop_num:
                     node = Node(opponent, None, i % n, i // n)
