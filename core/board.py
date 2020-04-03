@@ -10,6 +10,7 @@ class Board:
         self._pace = 0
         self._result = 0              # 0 = None, 1 = player1 win, 2 = player2 win, 3 = draw
         self.active_node = []
+        self.empty = True
         pass
 
     def get_square(self):
@@ -34,6 +35,7 @@ class Board:
 
     # put chess at x,y by player 1 or 2
     def move(self, x, y, player, end_round=True):
+        self.empty = False
         # validation check
         if not self._n > x >= 0 or not self._n > y >= 0:
             print('Invalid position')
@@ -54,8 +56,8 @@ class Board:
             if end_round:
                 # print('Round has ended')
                 return True
-
         self._result = self.check_win(x, y, player)
+
         return True
 
     def get_score(self, player, my_turn):
@@ -327,35 +329,35 @@ class Board:
         return string
 
     # Read board in string, player1=X:X=1 or player1=O:X=2
-    def read_board_string(self, string, X = 1):
+    def read_board_string(self, string, X=1):
         x = 0
         y = 0
         if X == 1:
             for pos in string:
                 if pos == 'X':
                     self.move(x, y, 1, end_round=False)
-                    y += 1
+                    x += 1
                 elif pos == 'O':
                     self.move(x, y, 2, end_round=False)
-                    y += 1
-                elif pos == '\n':
                     x += 1
-                    y = 0
-                else:
+                elif pos == '\n':
                     y += 1
+                    x = 0
+                else:
+                    x += 1
         if X == 2:
             for pos in string:
                 if pos == 'O':
                     self.move(x, y, 2, end_round=False)
-                    y += 1
+                    x += 1
                 elif pos == 'X':
                     self.move(x, y, 1, end_round=False)
-                    y += 1
-                elif pos == '\n':
                     x += 1
-                    y = 0
-                else:
+                elif pos == '\n':
                     y += 1
+                    x = 0
+                else:
+                    x += 1
 
     # Get chess in the position x,y
     def get_chess(self, x, y):
@@ -366,6 +368,9 @@ class Board:
 
     def get_pace(self):
         return self._pace
+
+    def is_empty(self):
+        return self.empty
 
 
 def test():

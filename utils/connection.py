@@ -118,7 +118,7 @@ def test():
     # print(create_game(1208, 1208, 16, 5))
     # print(move(94, 1208, [0, 0]))
     # print(get_moves(94, 1))
-    # print(get_board_string(94))
+    # print(get_board_string(1202))
     # print(get_board_map(94))
     pass
 
