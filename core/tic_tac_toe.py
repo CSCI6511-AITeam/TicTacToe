@@ -110,7 +110,7 @@ class Game:
                     else:
                         print('Invalide input.')
                 if self.join_game(game_id, adversary_id, board_size, target):
-                    # self.board.read_board_string(con.get_board_string(game_id))
+                    self.board.read_board_string(con.get_board_string(game_id))
                     print(self.board.get_board_string())
                     break
                 else:
@@ -201,6 +201,7 @@ class Game:
                 else:
                     x = int(move['moveX'])
                     y = int(move['moveY'])
+                    print(x, y)
                     self.board.move(x, y, self.current_round_team)
                     break
             print(self.board.get_board_string())

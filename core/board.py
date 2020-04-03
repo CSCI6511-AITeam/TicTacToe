@@ -327,35 +327,35 @@ class Board:
         return string
 
     # Read board in string, player1=X:X=1 or player1=O:X=2
-    def read_board_string(self, string, X=1):
+    def read_board_string(self, string, X = 1):
         x = 0
         y = 0
         if X == 1:
             for pos in string:
                 if pos == 'X':
                     self.move(x, y, 1, end_round=False)
-                    x += 1
+                    y += 1
                 elif pos == 'O':
                     self.move(x, y, 2, end_round=False)
-                    x += 1
-                elif pos == '\n':
                     y += 1
-                    x = 0
-                else:
+                elif pos == '\n':
                     x += 1
+                    y = 0
+                else:
+                    y += 1
         if X == 2:
             for pos in string:
                 if pos == 'O':
                     self.move(x, y, 2, end_round=False)
-                    x += 1
+                    y += 1
                 elif pos == 'X':
                     self.move(x, y, 1, end_round=False)
-                    x += 1
-                elif pos == '\n':
                     y += 1
-                    x = 0
-                else:
+                elif pos == '\n':
                     x += 1
+                    y = 0
+                else:
+                    y += 1
 
     # Get chess in the position x,y
     def get_chess(self, x, y):
