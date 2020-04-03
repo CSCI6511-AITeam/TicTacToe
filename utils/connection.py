@@ -36,7 +36,7 @@ def create_game(team1, team2, boardsize, target):
 
 # Pos=[x, y]. Return move ID
 def move(game_id, team_id, pos):
-    pos_str = '' + str(pos[0]) + ',' + str(pos[1])
+    pos_str = '' + str(pos[1]) + ',' + str(pos[0])
     data = {
         "type": "move",
         "gameId": game_id,

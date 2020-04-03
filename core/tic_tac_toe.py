@@ -199,8 +199,8 @@ class Game:
                 if int(move['moveId']) == self.move_id:
                     time.sleep(1)
                 else:
-                    x = int(move['moveX'])
-                    y = int(move['moveY'])
+                    x = int(move['moveY'])
+                    y = int(move['moveX'])
                     print(x, y)
                     self.board.move(x, y, self.current_round_team)
                     break
