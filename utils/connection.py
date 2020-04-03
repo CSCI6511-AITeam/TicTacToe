@@ -36,7 +36,7 @@ def create_game(team1, team2, boardsize, target):
 
 # Pos=[x, y]. Return move ID
 def move(game_id, team_id, pos):
-    pos_str = '' + str(pos[1]) + ',' + str(pos[0])
+    pos_str = '' + str(pos[0]) + ',' + str(pos[1])
     data = {
         "type": "move",
         "gameId": game_id,
@@ -73,6 +73,7 @@ def get_moves(game_id, count):
         print('Connection failed')
         print(e)
         return None
+
 
 # Return a board string
 def get_board_string(game_id):
@@ -111,6 +112,7 @@ def get_board_map(game_id):
         print(e)
         print('Connection failed')
         return None, False
+
 
 def test():
     # print(create_game(1208, 1208, 16, 5))
